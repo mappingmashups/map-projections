@@ -124,10 +124,6 @@ Remember <a href="http://lyzidiamond.com/geodesy-pt-1/">datums?</a>
 <img src="images/true-places.jpg">
 <a href="http://www.jeremywood.net/meridians.html">(GPS drawing by Jeremy Wood)</a>
 </div><div>
-Review CRS...
-</div><div>
-¯\_(ツ)_/¯
-</div><div>
 Projections: what do they do? 
 
 </div>
@@ -136,10 +132,10 @@ Stretch the curved earth (or an <a href="http://concretewheels.com/maps/maps_201
 
 </div><div>
 Think of it as projecting light through a transparent globe onto a piece of paper
-
+</div>
+<div><img src="images/projection-types.png">
 </div><div>
-But really it's a mathematical formula that does the same thing... but it's more flexible.
-
+Really it's a mathematical formula that does the same thing...
 </div><div>
 What can we do with this piece of paper? 
 </div><div>
@@ -147,7 +143,7 @@ Keep it flat, curl it into a tube, twist it into a cone...
 </div>
 <div><img src="images/qgis-projection-families.png">
 </div><div>
-These simple concepts have fancy-sounding words
+These simple concepts have fancy-sounding names
 </div><div>
 Plane: <em>"Azimuthal"</em>
 </div><div>
@@ -155,94 +151,100 @@ Tube: <em>"Cylindrical"</em>
 </div><div>
 Cone: <em>"Conic"</em> (whew, at least that was easy)
 </div><div>
-
-If we vary the placement of the light and the paper we get different effects
+If we vary the placement of the <em>light</em> and the <em>paper</em> we get different effects
 </div><div>
-...we can optimize to prevent certain distortions, but we can't prevent them all!
+...we can optimize to prevent certain <em>distortions</em>, but we can't prevent them all!
+</div>
+<div>Let's start with something <em>familiar</em>.</div>
+<div><img src="http://upload.wikimedia.org/wikipedia/commons/f/f4/Mercator_projection_SW.jpg">Hi, Mercator!</div>
+<div>The <a href="http://en.wikipedia.org/wiki/Mercator_projection">Mercator projection</a> was defined by cartographer <strong>Gerardus Mercator</strong> in <em>1569</em>.</div>
+<div>It became <em>popular</em> because of its strength in <strong>nautical navigation</strong>.</div>
+<div>Every projection has <strong>distortion</strong>, but <em>Mercator</em> is a particularly <strong>acute offender.</strong></div>
+<div>Most notably, Mercator distorts <em>relative size</em> of land masses towards the poles.</div>
+<div><img src="http://upload.wikimedia.org/wikipedia/commons/8/87/Tissot_mercator.png"><br><br><br>Stretchy!</div>
 </div><div>
-
-<em>Conformal</em> preserves (small) <strong>shapes</strong>
+So, about those different kinds of distortion...
+</div><div>
+<em>Conformal</em> preserves <strong>angles</strong> & (small) <strong>shapes</strong>
 </div><div>
 <em>Equivalent</em> is <strong>equal area</strong>
 </div><div>
 <em>Equidistant</em> preserves (some) <strong>distances</strong>
 </div><div>
 Look at a ton of examples <a href="http://www.jasondavies.com/maps/transition/">here</a>
+</div>
+<div style="color: black"><img src="http://www.mapthematics.com/Downloads/Images/Cornucopia33.jpg">
+Many weird ones
+</div><div><img src="images/Utm-zones.svg">
+<a href="https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system">UTM</a> (Universal Transverse Mercator)
 </div><div>
-Some weird ones
-</div><div>
-Discuss UTM
-</div><div>
-
 Something else you need to know:
 </div><div>
-  your data might be projected. 
+your data might be <em>projected</em> already!
 </div><div>
 But what does that mean?
 </div><div>
-Projections have units... maybe lat lon, maybe meters, maybe SOMETHING ELSE CRAZY
+Projections have units... maybe <em>lat lon</em>, maybe <strong>meters</strong>, maybe SOMETHING ELSE CRAZY
 </div><div>
-  Let's open up QGIS and look at the units.
+Let's open up <em>QGIS</em> and look at the units.
+</div>
+<div><img src="images/QGIS-latlon-world.png">
+</div>
+<div><img src="images/QGIS-mercator-sf.png">
 </div><div>
-
 Sometimes you'll get a <em>shapefile</em> without its <strong>.prj file</strong> WHICH IS THE WORST.
 </div><div>
-
-projfinder.com if you have no idea what your projection is.
+Try <a href="http://projfinder.com">projfinder.com</a> if you have no idea what your projection is.
 </div><div>
-
-If you have GeoJSON and it doesn't have a CRS, it's almost always in lat lon.
+If you have <em>GeoJSON</em> and it doesn't have a CRS, it's almost always in <strong>WGS84 lat lon.</strong>
+</div>
+<div><img src="images/metcalf-terrible.png">
 </div><div>
-WGS84 for life [pic from foss4g]
-</div><div>
-
-http://www.mapthematics.com/Downloads/Images/Cornucopia33.jpg
-</div><div>
-
-
 How do we refer to projections?
 </div><div>
-SRID (Spatial Reference System Identifier) http://en.wikipedia.org/wiki/SRID
+<a href="http://en.wikipedia.org/wiki/SRID">SRID</a> (Spatial Reference System Identifier)
 </div><div>
-Usually these refer to integer EPSG codes
+Usually these refer to integer <em>EPSG</em> codes
 </div><div>
-epsg.io
+<a href="http://epsg.io">epsg.io</a>
 </div><div>
-
 What are some popular ones?
 </div><div>
-  (These are the ones you should get tattooed on the back of your hand)
-
+(These are the ones you should get tattooed on the back of your hand)
+</div>
+<div><img src="images/cooper-4326-compressed.jpg">
 </div><div>
-EPSG: 4326 ("unprojected lat/lon in WGS84)
-
+<a href="http://epsg.io/4326">EPSG: 4326</a> unprojected lat/lon in <em>WGS84</em> ("geographic")
 </div><div>
-EPSG: 3857 (sometimes 900913)
-
+<a href="http://epsg.io/4326">EPSG: 3857</a> Web Mercator / Pseudo Mercator (formerly <em>900913</em>)
 </div><div>
 Some of my personal favorites:
-
-</div><div>
-EPSG: 3310 (great for California)
-
-</div><div>
-EPSG: 2163 (US National Atlas Equal Area / Lambert Azimuthal Equal Area)
-
+</div><div><img src="images/usa-2163.png">
+<a href="http://epsg.io/2163">EPSG: 2163</a> US National Atlas Equal Area / (Lambert Azimuthal)
+</div><div><img src="images/california-3310.png">
+<a href="http://epsg.io/3310">EPSG: 3310</a> California Albers Equal Area
 </div><div>
 Does anyone else in the room have a favorite?
-
 </div><div>
 So you want to try some projections? Here's how you do it in...
-
 </div><div>
 ...QGIS
-
+</div>
+<div><img src="images/QGIS-latlon-world.png">
 </div><div>
 ...CartoDB
-
+</div>
+<div><img src="images/cartodb-2163.png">
 </div><div>
 ...TileMill
-
+</div>
+<div><img src="images/tilemill-before.png">
+</div>
+<div><img src="images/project-before.png">
+</div>
+<div><img src="images/project-after.png">
+</div>
+<div><img src="images/tilemill-after.png">
 </div><div>
 D3... well... another time.
 </div>
