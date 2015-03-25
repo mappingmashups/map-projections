@@ -16,6 +16,9 @@ em, a {
   font-style:normal;
   color:#8dbd0c;
 }
+strong {
+  color:#34d0e7;
+}
 a {
   background: #34d0e7;
   color:#000;
@@ -103,9 +106,12 @@ window.onload = function() {
 </script></head><body>
 
 <div>
-Map Projections!
-</div><div>
-What you need to know!
+<strong>Map Projections:</strong> What <em>you</em> need to know!
+</div>
+<div><em>PLEASE</em> interrupt if you have questions!</div>
+<div>Go to <a href="http://mappingmashups.github.io/map-projections">http:// mappingmashups.github.io /map-projections</a> to follow along.</div>
+<div>(Use <strong>left</strong> and <strong>right</strong> arrows to navigate. Links <a href="#4">look like this</a>.)</div>
+
 </div><div>
 I'm gonna have to simplify some things.
 
@@ -118,8 +124,9 @@ Remember <a href="http://lyzidiamond.com/geodesy-pt-1/">datums?</a>
 <img src="images/true-places.jpg">
 <a href="http://www.jeremywood.net/meridians.html">(GPS drawing by Jeremy Wood)</a>
 </div><div>
-Review CRS
-
+Review CRS...
+</div><div>
+¯\_(ツ)_/¯
 </div><div>
 Projections: what do they do? 
 
@@ -134,15 +141,19 @@ Think of it as projecting light through a transparent globe onto a piece of pape
 But really it's a mathematical formula that does the same thing... but it's more flexible.
 
 </div><div>
-What can we do with this piece of paper? Keep it flat, curl it into a tube, twist it into a cone...
+What can we do with this piece of paper? 
 </div><div>
-Now most of these simple concepts have fancy-sounding words
+Keep it flat, curl it into a tube, twist it into a cone...
+</div>
+<div><img src="images/qgis-projection-families.png">
 </div><div>
-  Plane: "Azimuthal"
+These simple concepts have fancy-sounding words
 </div><div>
-  Tube: "Cylindrical"
+Plane: <em>"Azimuthal"</em>
 </div><div>
-  Cone: "Conic" (whew, at least that was easy)
+Tube: <em>"Cylindrical"</em>
+</div><div>
+Cone: <em>"Conic"</em> (whew, at least that was easy)
 </div><div>
 
 If we vary the placement of the light and the paper we get different effects
@@ -150,15 +161,14 @@ If we vary the placement of the light and the paper we get different effects
 ...we can optimize to prevent certain distortions, but we can't prevent them all!
 </div><div>
 
-  Preserve (some) shapes: Conformal
+<em>Conformal</em> preserves (small) <strong>shapes</strong>
 </div><div>
-  Preserve all areas: Equivalent
+<em>Equivalent</em> is <strong>equal area</strong>
 </div><div>
-
-Look at a ton of examples here
-http://www.jasondavies.com/maps/transition/
+<em>Equidistant</em> preserves (some) <strong>distances</strong>
 </div><div>
-
+Look at a ton of examples <a href="http://www.jasondavies.com/maps/transition/">here</a>
+</div><div>
 Some weird ones
 </div><div>
 Discuss UTM
@@ -175,7 +185,7 @@ Projections have units... maybe lat lon, maybe meters, maybe SOMETHING ELSE CRAZ
   Let's open up QGIS and look at the units.
 </div><div>
 
-Sometimes you'll get a shapefile without its dot .prj file WHICH IS THE WORST.
+Sometimes you'll get a <em>shapefile</em> without its <strong>.prj file</strong> WHICH IS THE WORST.
 </div><div>
 
 projfinder.com if you have no idea what your projection is.
