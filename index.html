@@ -1,0 +1,240 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family: 'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+h1, h2, h3, p {
+  margin:0;
+}
+em, a {
+  font-style:normal;
+  color:#8dbd0c;
+}
+a {
+  background: #34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+img {
+  width:100%;
+}
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+div.center {
+  text-align:center;
+}
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+</style><script type='text/javascript'>
+window.onload = function() {
+    var s = document.getElementsByTagName('div'), ti;
+    if (!s) return;
+    var big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+    window.big = big;
+    function resize() {
+        var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+        e.style.fontSize = h + 'px';
+        for (var i = h - 2; e.offsetWidth > w || e.offsetHeight > h; i -= 2) {
+            e.style.fontSize = i + 'px';
+        }
+        e.style.marginTop = ((h - e.offsetHeight) / 2) + 'px';
+    }
+    function go(n) {
+        big.current = n;
+        var e = s[n], t = parseInt(e.dataset.timeToNext || 0, 10);
+        document.body.className = e.dataset.bodyclass || '';
+        for (var k = 0; k < s.length; k++) s[k].style.display = 'none';
+        e.style.display = 'inline';
+        if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+            document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+            e.firstChild.style.display = 'none';
+            if ('classList' in e) e.classList.add('imageText');
+        } else {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundColor = e.style.backgroundColor;
+        }
+        if (ti !== undefined) window.clearInterval(ti);
+        if (t > 0) ti = window.setTimeout(fwd, (t * 1000));
+        resize();
+        if (window.location.hash !== n) window.location.hash = n;
+        document.title = e.textContent || e.innerText;
+    }
+    document.onclick = function() { go(++big.current % (s.length)); };
+    function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+    function rev() { go(Math.max(0, --big.current)); }
+    document.onkeydown = function(e) {
+        if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+        if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+    };
+    document.ontouchstart = function(e) {
+        var x0 = e.changedTouches[0].pageX;
+        document.ontouchend = function(e2) {
+            var x1 = e2.changedTouches[0].pageX;
+            if (x1 - x0 < 0) fwd();
+            if (x1 - x0 > 0) rev();
+        };
+    };
+    function parse_hash() {
+        return Math.max(Math.min(s.length - 1,
+            parseInt(window.location.hash.substring(1), 10)), 0);
+    }
+    if (window.location.hash) big.current = parse_hash() || big.current;
+    window.onhashchange = function() {
+        var c = parse_hash();
+        if (c !== big.current) go(c);
+    };
+    window.onresize = resize;
+    go(big.current);
+};
+</script></head><body>
+
+<div>
+Map Projections!
+</div><div>
+What you need to know!
+</div><div>
+I'm gonna have to simplify some things.
+
+</div><div>
+This will make real geographers cry.
+
+</div><div>
+
+
+Review datums:
+http://www.jeremywood.net/meridians.html
+
+</div><div>
+Review CRS
+
+</div><div>
+Projections: what do they do? 
+
+</div><div>
+Stretch the curved earth onto a flat plane
+
+</div><div>
+Think of it as projecting light through a transparent globe onto a piece of paper
+
+</div><div>
+But really it's a mathematical formula that does the same thing... but it's more flexible.
+
+</div><div>
+What can we do with this piece of paper? Keep it flat, curl it into a tube, twist it into a cone...
+</div><div>
+Now most of these simple concepts have fancy-sounding words
+</div><div>
+  Plane: "Azimuthal"
+</div><div>
+  Tube: "Cylindrical"
+</div><div>
+  Cone: "Conic" (whew, at least that was easy)
+</div><div>
+
+If we vary the placement of the light and the paper we get different effects
+</div><div>
+...we can optimize to prevent certain distortions, but we can't prevent them all!
+</div><div>
+
+  Preserve (some) shapes: Conformal
+</div><div>
+  Preserve all areas: Equivalent
+</div><div>
+
+Look at a ton of examples here
+http://www.jasondavies.com/maps/transition/
+</div><div>
+
+Some weird ones
+</div><div>
+Discuss UTM
+</div><div>
+
+Something else you need to know:
+</div><div>
+  your data might be projected. 
+</div><div>
+But what does that mean?
+</div><div>
+Projections have units... maybe lat lon, maybe meters, maybe SOMETHING ELSE CRAZY
+</div><div>
+  Let's open up QGIS and look at the units.
+</div><div>
+
+Sometimes you'll get a shapefile without its dot .prj file WHICH IS THE WORST.
+</div><div>
+
+projfinder.com if you have no idea what your projection is.
+</div><div>
+
+If you have GeoJSON and it doesn't have a CRS, it's almost always in lat lon.
+</div><div>
+WGS84 for life [pic from foss4g]
+</div><div>
+
+http://www.mapthematics.com/Downloads/Images/Cornucopia33.jpg
+</div><div>
+
+
+How do we refer to projections?
+</div><div>
+SRID (Spatial Reference System Identifier) http://en.wikipedia.org/wiki/SRID
+</div><div>
+Usually these refer to integer EPSG codes
+</div><div>
+epsg.io
+</div><div>
+
+What are some popular ones?
+</div><div>
+  (These are the ones you should get tattooed on the back of your hand)
+
+</div><div>
+EPSG: 4326 ("unprojected lat/lon in WGS84)
+
+</div><div>
+EPSG: 3857 (sometimes 900913)
+
+</div><div>
+Some of my personal favorites:
+
+</div><div>
+EPSG: 3310 (great for California)
+
+</div><div>
+EPSG: 2163 (US National Atlas Equal Area / Lambert Azimuthal Equal Area)
+
+</div><div>
+Does anyone else in the room have a favorite?
+
+</div><div>
+So you want to try some projections? Here's how you do it in...
+
+</div><div>
+...QGIS
+
+</div><div>
+...CartoDB
+
+</div><div>
+...TileMill
+
+</div><div>
+D3... well... another time.
+</div>
+</body>
+</html>
